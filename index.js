@@ -1,3 +1,4 @@
+/*
 console.log("Hello World");
 
 function getComputerChoice(){
@@ -82,3 +83,48 @@ function playGame(rounds){
 let results = playGame(5);
 console.log(results);
 
+*/
+const buttons = document.querySelectorAll(".RPC");
+
+// Created once, outside the function, so it isn't rebuilt every click
+const resultDiv = document.createElement("div");
+const para = document.createElement("p");
+para.style.whiteSpace = "pre-line"; // makes the line breaks show up
+resultDiv.appendChild(para);
+document.body.appendChild(resultDiv);
+
+// Outside the function so they keep their values between rounds
+let myScore = 0;
+let computerScore = 0;
+
+buttons.forEach(function (button) {
+    button.addEventListener("click", playRound); // no () here
+});
+
+function playRound(event) {
+    const choices = ["Rock", "Paper", "Scissors"];
+    const computerChoice = choices[Math.floor(Math.random() * 3)];
+    const myChoice = event.target.value;
+
+    let result;
+
+    if (myChoice === computerChoice) {
+        result = "It's a TIE";
+    } else if (
+        (computerChoice === "Rock" && myChoice === "Paper") ||
+        (computerChoice === "Paper" && myChoice === "Scissors") ||
+        (computerChoice === "Scissors" && myChoice === "Rock")
+    ) {
+        myScore += 1;
+        result = "You WON this round";
+    } else {
+        computerScore += 1;
+        result = "You lost this round";
+    }
+
+    para.textContent =
+        `You chose: ${myChoice}, computer chose: ${computerChoice}\n` +
+        `myScore: ${myScore}\n` +
+        `computerScore: ${computerScore}\n` +
+        result;
+}
